@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Access Review Visualizer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <h1>Access Review &amp; Audit Log Visualizer</h1>
+    <p class="subtitle">
+      Upload an identity/access export (Okta-style CSV) to flag stale accounts
+      and visualize access by department.
+    </p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" class="upload-form">
+      <input type="file" name="file" accept=".csv" required />
+      <button type="submit">Upload &amp; Analyze</button>
+    </form>
+
+    <p class="hint">
+      Expected columns: <code>username, department, role, status, last_login</code>.
+      A sample file is included at <code>sample_data/sample_access_log.csv</code>.
+    </p>
+  </div>
+</body>
+</html>

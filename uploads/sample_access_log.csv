@@ -1,0 +1,21 @@
+username,department,role,status,last_login
+jsmith,Engineering,Software Engineer,Active,2026-08-01
+mwong,Sales,Account Executive,Active,2026-07-28
+kpatel,IT,System Administrator,Active,2025-12-15
+rjohnson,Finance,Financial Analyst,Active,2026-08-05
+lchen,Engineering,Engineering Manager,Active,2026-07-30
+dgarcia,HR,HR Generalist,Active,2025-11-02
+tclark,IT,Domain Admin,Suspended,2025-09-10
+awright,Marketing,Marketing Coordinator,Active,2026-06-20
+bmartinez,Sales,Sales Manager,Active,2025-10-01
+nnguyen,Engineering,DevOps Admin,Active,2025-08-12
+skim,Finance,Controller,Active,2026-07-15
+jbrown,IT,IT Support,Active,2026-08-02
+hlee,HR,HR Director,Active,2026-05-11
+cwilson,Engineering,Software Engineer,Active,2026-08-06
+pmoore,Marketing,Content Strategist,Active,2025-07-19
+etaylor,IT,Cloud Admin,Active,2025-06-01
+vrodriguez,Sales,SDR,Active,2026-07-22
+qzhang,Engineering,QA Engineer,Active,2026-08-03
+fanderson,Finance,AP Specialist,Suspended,2025-04-14
+gthomas,IT,Security Admin,Active,2025-12-30

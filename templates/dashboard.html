@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - Access Review Visualizer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Access Review Dashboard</h1>
+    <a href="{{ url_for('index') }}" class="back-link">&larr; Upload a different file</a>
+
+    <div class="stat-cards">
+      <div class="stat-card">
+        <span class="stat-number">{{ total }}</span>
+        <span class="stat-label">Total Accounts</span>
+      </div>
+      <div class="stat-card warning">
+        <span class="stat-number">{{ stale_count }}</span>
+        <span class="stat-label">Stale (90+ days inactive)</span>
+      </div>
+      <div class="stat-card danger">
+        <span class="stat-number">{{ risk_count }}</span>
+        <span class="stat-label">High Risk (stale + admin role)</span>
+      </div>
+    </div>
+
+    <div class="charts">
+      <div class="chart-box">
+        <h3>Access by Department</h3>
+        <canvas id="deptChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>Active vs Stale</h3>
+        <canvas id="staleChart"></canvas>
+      </div>
+    </div>
+
+    <h3>Account Detail</h3>
+    <table class="record-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Department</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Last Login</th>
+          <th>Flags</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr class="{{ 'risk-row' if r.risk_flag else ('stale-row' if r.is_stale else '') }}">
+          <td>{{ r.username }}</td>
+          <td>{{ r.department }}</td>
+          <td>{{ r.role }}</td>
+          <td>{{ r.status }}</td>
+          <td>{{ r.last_login.strftime('%Y-%m-%d') if r.last_login else 'Never' }}</td>
+          <td>
+            {% if r.risk_flag %}<span class="badge badge-danger">High Risk</span>{% endif %}
+            {% if r.is_stale and not r.risk_flag %}<span class="badge badge-warning">Stale</span>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    async function loadCharts() {
+      const deptRes = await fetch("{{ url_for('department_breakdown') }}");
+      const deptData = await deptRes.json();
+      new Chart(document.getElementById('deptChart'), {
+        type: 'bar',
+        data: {
+          labels: deptData.labels,
+          datasets: [{ label: 'Accounts', data: deptData.values, backgroundColor: '#2F81F7' }]
+        },
+        options: { plugins: { legend: { display: false } } }
+      });
+
+      const staleRes = await fetch("{{ url_for('stale_vs_active') }}");
+      const staleData = await staleRes.json();
+      new Chart(document.getElementById('staleChart'), {
+        type: 'doughnut',
+        data: {
+          labels: staleData.labels,
+          datasets: [{ data: staleData.values, backgroundColor: ['#3fb950', '#d29922'] }]
+        }
+      });
+    }
+    loadCharts();
+  </script>
+</body>
+</html>
