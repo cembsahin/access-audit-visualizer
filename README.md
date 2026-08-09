@@ -2,6 +2,8 @@
 
 ![Tests](https://github.com/cembsahin/access-audit-visualizer/actions/workflows/tests.yml/badge.svg)
 
+**[Live Demo](https://access-audit-visualizer.onrender.com)** — free-tier hosting, may take ~30-60s to wake up on first load.
+
 A full-stack web app that ingests identity/access export CSVs (Okta-style) and flags stale or high-risk accounts, visualizing access patterns by department.
 
 Built after doing this kind of access review manually as part of IT/identity administration work — this is a generalized, public version of that workflow.
